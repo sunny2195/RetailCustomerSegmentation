@@ -9,4 +9,5 @@ python-box
 streamlit
 dill
 pycaret
-
+openpyxl
+ipykernel

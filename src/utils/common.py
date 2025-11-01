@@ -7,6 +7,7 @@ import dill
 import json
 import logging
 
+
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s]: %(message)s:')
 logger = logging.getLogger(__name__)
 
@@ -29,8 +30,10 @@ def create_directories(path_to_directories: list, verbose=True):
             logger.info(f"Created directory at: {path}")
 
 @ensure_annotations
-def save_dill(data: any, path: Path):
+def save_dill(data: object, path: Path):
     try:
+        dir_path = os.path.dirname(path)
+        os.makedirs(dir_path, exist_ok=True)
         with open(path, "wb") as file:
             dill.dump(data, file)
         logger.info(f"Dill file saved successfully at: {path}")
@@ -39,7 +42,7 @@ def save_dill(data: any, path: Path):
         raise e
     
 @ensure_annotations
-def load_dill(path: Path) -> any:
+def load_dill(path: Path) -> object:
     try:
         with open(path, "rb") as file:
             data = dill.load(file)
@@ -52,6 +55,8 @@ def load_dill(path: Path) -> any:
 @ensure_annotations
 def save_json(path: Path, data: dict):
     try:
+        dir_path = os.path.dirname(path)
+        os.makedirs(dir_path, exist_ok=True)
         with open(path, "w") as f:
             json.dump(data, f, indent=4)
         logger.info(f"JSON file saved successfully at: {path}")

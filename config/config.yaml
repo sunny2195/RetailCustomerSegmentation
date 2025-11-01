@@ -1,24 +1,23 @@
 artifacts_root: artifacts
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_path: data/customer_shopping_data.csv
+  source_path: data/Online_Retail.xlsx
   ingested_data_path: artifacts/data_ingestion/data.csv
 
 data_validation:
   root_dir: artifacts/data_validation
+  data_path: artifacts/data_ingestion/data.csv
   validation_status_file: artifacts/data_validation/status.txt
-  required_columns: ["invoice_no", "customer_id", "gender", "age", "category", "quantity", "price", "payment_method", "invoice_date", "shopping_mall"]
+  required_columns: ["InvoiceNo", "StockCode", "Description", "Quantity", "InvoiceDate", "UnitPrice", "CustomerID", "Country"]
   column_schemas:
-    invoice_no: "object"
-    customer_id: "object"
-    gender: "object"
-    age: "int64"
-    category: "object"
-    quantity: "int64"
-    price: "float64"
-    payment_method: "object"
-    invoice_date: "object" 
-    shopping_mall: "object"
+    InvoiceNo: "object"
+    StockCode: "object"
+    Description: "object"
+    Quantity: "int64"
+    InvoiceDate: "object" 
+    UnitPrice: "float64"
+    CustomerID: "float64" 
+    Country: "object"
 
 data_transformation:
   root_dir: artifacts/data_transformation
@@ -30,13 +29,11 @@ model_trainer:
   root_dir: artifacts/model_trainer
   data_path: artifacts/data_transformation/rfm_data.csv
   model_path: artifacts/models/model.dill
-  model_name: "kmeans"
+  model_name: "sc"
 
   params:
-    n_clusters: 5       
-    init: "k-means++"
-    random_state: 42
-  
+    num_clusters: 4      
+     
 
 model_evaluation:
   root_dir: artifacts/model_evaluation

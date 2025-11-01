@@ -10,6 +10,7 @@ class DataIngestionConfig:
 @dataclass(frozen=True)
 class DataValidationConfig:
     root_dir: Path
+    data_path: Path
     validation_status_file: Path
     required_columns: list
     column_schemas: dict

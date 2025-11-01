@@ -10,7 +10,9 @@ class DataIngestion:
     def ingest_data(self):
         logger.info("Data Ingestion component: Starting data ingestion...")
         try:
-            df = pd.read_csv(self.config.source_path)
+            
+            logger.info(f"Reading Excel file from: {self.config.source_path}")
+            df = pd.read_excel(self.config.source_path)
             logger.info(f"Successfully read data from: {self.config.source_path}")
             os.makedirs(os.path.dirname(self.config.ingested_data_path), exist_ok=True)
             df.to_csv(self.config.ingested_data_path, index=False)
