@@ -1,0 +1,12 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+PyYAML
+ensure
+python-box
+streamlit
+dill
+pycaret
+
