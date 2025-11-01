@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.cluster import SpectralClustering, KMeans, Birch 
+import numpy as np
 from src.utils.common import logger, save_dill
 from src.entity.config_entity import ModelTrainerConfig
 
@@ -39,11 +40,26 @@ class ModelTrainer:
                 raise ValueError(f"Unknown model name in config: {self.config.model_name}")
             
             logger.info(f"Training {self.config.model_name}...")
-            model.fit(features_for_clustering)
-            logger.info(f"Model training complete.")
-
-            save_dill(data=model, path=self.config.model_path)
-            logger.info(f"Trained model saved to: {self.config.model_path}")
+            cluster_labels = model.fit_predict(features_for_clustering) 
+            logger.info(f"Model training complete. Found {self.config.params['num_clusters']} clusters.")
+            
+            
+            
+            features_for_clustering['Cluster'] = cluster_labels
+            
+            
+            centroids = features_for_clustering.groupby('Cluster').mean()
+            
+            
+            model_artifacts = {
+                'model': model,
+                'centroids': centroids.to_dict('list') 
+            }
+            logger.info("Calculated and packaged centroids for prediction.")
+            
+            
+            save_dill(data=model_artifacts, path=self.config.model_path)
+            logger.info(f"Trained model (with centroids) saved to: {self.config.model_path}")
             
         except Exception as e:
             logger.error(f"Error during model training: {e}")

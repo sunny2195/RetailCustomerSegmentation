@@ -69,9 +69,13 @@ class ModelEvaluation:
         """
         logger.info("--- Starting Model Evaluation ---")
         try:
+            model_artifacts = load_dill(path=self.config.model_path)
+            model = model_artifacts['model']
+
             
             data = pd.read_csv(self.config.data_path)
             model = load_dill(path=self.config.model_path)
+            model = model_artifacts['model']
             
             
             
